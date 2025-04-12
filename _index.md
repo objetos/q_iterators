@@ -1,11 +1,11 @@
 ---
 bookCollapseSection: true
-title: "visitQuadrille(args)"
-weight: 3
-draft: false
+title: "Iterators"
+weight: 2
+draft: true
 ---
 
-The `visitQuadrille` p5 function is designed to iterate over `quadrille` cells and execute a specified `fx` function on each cell. It provides a concise, less error-prone approach that aligns well with functional programming principles.
+The `visit` p5 function is designed to iterate over `quadrille` cells and execute a specified `fx` function on each cell. It provides a concise, less error-prone approach that aligns well with functional programming principles.
 
 ## Manual Iteration Using Nested Loops
 
@@ -41,26 +41,26 @@ for (let cell of quadrille) {
 
 This method simplifies access to `row` and `col` without explicit indexing, reducing errors. However, it still requires manual iteration logic, which can be cumbersome in more complex scenarios.
 
-## Simplified Iteration with `visitQuadrille`
+## Simplified Iteration with `visit`
 
-The `visitQuadrille` function makes it easy to apply a function (`fx`) to each cell in a `quadrille`. By removing the need for manual indexing, it simplifies the process and reduces the chance of errors. Additionally, `visitQuadrille` supports an optional `values` array to selectively process specific cells, adding flexibility.
+The `visit` function makes it easy to apply a function (`fx`) to each cell in a `quadrille`. By removing the need for manual indexing, it simplifies the process and reduces the chance of errors. Additionally, `visit` supports an optional `values` array to selectively process specific cells, adding flexibility.
 
 ```js
 function fx(row, col) {
   /* fx body */
 }
 
-visitQuadrille(quadrille, fx, values);
+quadrille.visit(fx, values);
 ```
 
 This approach keeps the code clean and allows the logic to be reused and organized effectively. The optional `values` array makes it possible to limit iteration to specific cell values.
 
-## Concise Iteration with `visitQuadrille`
+## Concise Iteration with `visit`
 
-The `visitQuadrille` function also supports inline definitions of the `fx` function using modern [arrow functions](https://www.w3schools.com/js/js_arrow_function.asp). These anonymous functions enable a more concise and [declarative](https://en.wikipedia.org/wiki/Declarative_programming) style, removing the need for explicit loops:
+The `visit` function also supports inline definitions of the `fx` function using modern [arrow functions](https://www.w3schools.com/js/js_arrow_function.asp). These anonymous functions enable a more concise and [declarative](https://en.wikipedia.org/wiki/Declarative_programming) style, removing the need for explicit loops:
 
 ```js
-visitQuadrille(quadrille, (row, col) => { /* fx body */ }, values);
+quadrille.visit(({row, col}) => { /* fx body */ }, values);
 ```
 
 This concise approach is preferred for its simplicity, reducing potential errors and improving readability while fully leveraging modern JavaScript features.
