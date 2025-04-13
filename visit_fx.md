@@ -149,7 +149,7 @@ To convert the named function `fx` into an [arrow function](https://www.w3school
 
 ```js
 // Original named function
-function fx(row, col) {
+function fx({row, col}) {
   if (source.isEmpty(row, col) && source.ring(row, col).order === 3) {
     target.fill(row, col, red);
   }
@@ -159,7 +159,7 @@ function fx(row, col) {
 **Step 1:** Convert the named function to an anonymous function expression.
 
 ```js
-const fx = function(row, col) {
+const fx = function({row, col}) {
   if (source.isEmpty(row, col) && source.ring(row, col).order === 3) {
     target.fill(row, col, red);
   }
@@ -169,7 +169,7 @@ const fx = function(row, col) {
 **Step 2:** Replace `function` with arrow syntax.
 
 ```js
-const fx = (row, col) => {
+const fx = ({row, col}) => {
   if (source.isEmpty(row, col) && source.ring(row, col).order === 3) {
     target.fill(row, col, red);
   }
