@@ -1,5 +1,5 @@
 ---
-weight: 2
+weight: 1
 title: for...of
 ---
 
@@ -183,7 +183,7 @@ function highlight() {
 {{% /details %}}
 
 {{< callout type="info" >}}  
-The expression `q.cells(Quadrille.isFilled)` is equivalent to `q.cells(value => Quadrille.isFilled(value))`. This shorthand works because `Quadrille.isFilled` already expects a single argument.  
+The expression `q.cells(Quadrille.isFilled)` is equivalent to `q.cells(value => Quadrille.isFilled(value))`. This shorthand works because [`Quadrille.isFilled`]({{< relref is_filled >}}) already expects a single argument.  
 {{< /callout >}}
 
 ## Example: Filtering by Predicate Value, Row, and Column
