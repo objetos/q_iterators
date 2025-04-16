@@ -3,7 +3,9 @@ weight: 2
 title: for...of
 ---
 
-Loops all cells (i.e., defined as an object literal {row, col, value}) in the `quadrille`. Only cells passing the cells(filter) condition are yielded. Pass no filter to collect all cells.
+Iterates lazily in row-major order (top to bottom, left to right) over all matching cells in a `quadrille`. Each iteration yields a cell object of the form `{ row, col, value }`. This pattern mirrors JavaScript’s [`for...of`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of), which is used to loop over iterable objects like arrays and generators.
+
+Internally, it delegates to the [cells(filter?)]({{< relref cells >}}) method, which accepts an optional filter to control which cells are yielded. It is also the mechanism behind [visit(fx, filter?)]({{< relref visit >}}), which provides syntactic sugar for this iteration pattern.
 
 ## Example: Filtering by Value Collection
 
@@ -12,8 +14,11 @@ Loops all cells (i.e., defined as an object literal {row, col, value}) in the `q
 'use strict';
 Quadrille.cellLength = 50;
 let q, hint;
+
+// Emoji sets to populate and filter the quadrille
 const monkeys = ['🙈', '🙉', '🙊', '🦧'];
 const birds = ['🐍', '🦜', '🦚', '🐤'];
+// Use spread operator to aggregate arrays
 const emojis = [...monkeys, ...birds, '🐸', '🐯', '🐱', '🐶', '🐮'];
 
 function setup() {
@@ -32,12 +37,17 @@ function mousePressed() {
 }
 
 function highlight() {
+  // Fill the main quadrille q with random emojis
   q = createQuadrille(8, 8);
+  // Iterates all cells in q
   for (const { row, col } of q) {
     q.fill(row, col, random(emojis));
   }
+  // Create a new quadrille to highlight monkey cells
   hint = createQuadrille(8, 8);
+  // Iterates only cells containing monkeys
   for (const { row, col } of q.cells(monkeys)) {
+    // Highlight selected cells with translucent black
     hint.fill(row, col, color(0, 140));
   }
 }
@@ -47,8 +57,11 @@ function highlight() {
 ```js
 Quadrille.cellLength = 50;
 let q, hint;
+
+// Emoji sets to populate and filter the quadrille
 const monkeys = ['🙈', '🙉', '🙊', '🦧'];
 const birds = ['🐍', '🦜', '🦚', '🐤'];
+// Use spread operator to aggregate arrays
 const emojis = [...monkeys, ...birds, '🐸', '🐯', '🐱', '🐶', '🐮'];
 
 function setup() {
@@ -67,17 +80,39 @@ function mousePressed() {
 }
 
 function highlight() {
+  // Fill the main quadrille q with random emojis
   q = createQuadrille(8, 8);
+  // Iterates all cells in q
   for (const { row, col } of q) {
     q.fill(row, col, random(emojis));
   }
+  // Create a new quadrille to highlight monkey cells
   hint = createQuadrille(8, 8);
+  // Iterates only cells containing monkeys
   for (const { row, col } of q.cells(monkeys)) {
+    // Highlight selected cells with translucent black
     hint.fill(row, col, color(0, 140));
   }
 }
 ```
 {{% /details %}}
+
+{{< callout type="info" >}}  
+This example shows two uses of `for...of`:  
+- The first loop (`for...of q`) iterates **all cells** in the quadrille to randomly fill them with emojis.  
+- The second loop (`for...of q.cells(monkeys)`) uses a **value array filter** to select only monkey emoji cells to be highlighted.  
+Both loops access the cell `{ row, col }` directly through [JavaScript object destructuring](https://www.w3schools.com/js/js_destructuring.asp).  
+{{< /callout >}}
+
+{{< callout type="info" >}}  
+The [spread operator](https://www.w3schools.com/howto/howto_js_spread_operator.asp) `...` is used to **combine multiple arrays** into one.  
+```js
+const monkeys = ['🙈', '🙉', '🙊', '🦧'];
+const birds = ['🐍', '🦜', '🦚', '🐤'];
+const emojis = [...monkeys, ...birds, '🐸', '🐯', '🐱', '🐶', '🐮'];
+```
+This creates a new array containing all monkey and bird emojis, followed by additional individual emojis.
+{{< /callout >}}
 
 ## Example: Filtering by Predicate Value
 
@@ -103,9 +138,12 @@ function mousePressed() {
 }
 
 function highlight() {
+  // Fill q with random 🐸, 🐯 and 🐮 emojis, 15 each
   q = createQuadrille(8, 8).rand(15, '🐸').rand(15, '🐯').rand(15, '🐮');
-  hint = createQuadrille(8, 8);
-  for (const cell of q.cells(value => Quadrille.isFilled(value))) {
+  hint = createQuadrille(8, 8); 
+  // Iterate only over filled cells in q using for...of and a predicate filter
+  for (const cell of q.cells(Quadrille.isFilled)) {
+    // Highlight filled cells with a translucent overlay
     hint.fill(cell.row, cell.col, color(0, 140));
   }
 }
@@ -132,9 +170,12 @@ function mousePressed() {
 }
 
 function highlight() {
+  // Fill q with random 🐸, 🐯 and 🐮 emojis, 15 each
   q = createQuadrille(8, 8).rand(15, '🐸').rand(15, '🐯').rand(15, '🐮');
-  hint = createQuadrille(8, 8);
-  for (const cell of q.cells(value => Quadrille.isFilled(value))) {
+  hint = createQuadrille(8, 8); 
+  // Iterate only over filled cells in q using for...of and a predicate filter
+  for (const cell of q.cells(Quadrille.isFilled)) {
+    // Highlight filled cells with a translucent overlay
     hint.fill(cell.row, cell.col, color(0, 140));
   }
 }
@@ -142,12 +183,12 @@ function highlight() {
 {{% /details %}}
 
 {{< callout type="info" >}}  
-Also possible would have been simply `q.cells(Quadrille.isFilled)` which is equivalent to: `q.cells(value => Quadrille.isFilled(value)))`
+The expression `q.cells(Quadrille.isFilled)` is equivalent to `q.cells(value => Quadrille.isFilled(value))`. This shorthand works because `Quadrille.isFilled` already expects a single argument.  
 {{< /callout >}}
 
 ## Example: Filtering by Predicate Value, Row, and Column
 
-(move mouse to highlight 🐸 in the hovered column, and click to randomize `q`)  
+(move mouse to highlight 🐸 filled cells in the hovered col, and click to randomize `q`)  
 {{< p5-global-iframe quadrille="true" width="425" height="425" >}}
 'use strict';
 Quadrille.cellLength = 50;
@@ -155,6 +196,7 @@ let q, hint;
 
 function setup() {
   createCanvas(8 * Quadrille.cellLength, 8 * Quadrille.cellLength);
+  // Create q with random 🐸, 🐯 and 🐮 emojis, 15 each
   q = createQuadrille(8, 8).rand(15, '🐸').rand(15, '🐯').rand(15, '🐮');
   highlight();
 }
@@ -176,8 +218,12 @@ function mouseMoved() {
 
 function highlight() {
   hint = createQuadrille(8, 8);
-  for (const cell of q.cells({ value: v => v === '🐸', 
-                               col: c => c === q.mouseCol })) {
+  // Iterate over all 🐸 cells in the current mouse column
+  for (const cell of q.cells({ 
+    value: v => v === '🐸',    // Only 🐸 values
+    col: c => c === q.mouseCol // Only current column
+  })) {
+    // Fill the hint cell with translucent black for visual feedback
     hint.fill(cell.row, cell.col, color(0, 140));
   }
 }
@@ -190,6 +236,7 @@ let q, hint;
 
 function setup() {
   createCanvas(8 * Quadrille.cellLength, 8 * Quadrille.cellLength);
+  // Create q with random 🐸, 🐯 and 🐮 emojis, 15 each
   q = createQuadrille(8, 8).rand(15, '🐸').rand(15, '🐯').rand(15, '🐮');
   highlight();
 }
@@ -211,8 +258,12 @@ function mouseMoved() {
 
 function highlight() {
   hint = createQuadrille(8, 8);
-  for (const cell of q.cells({ value: v => v === '🐸', 
-                               col: c => c === q.mouseCol })) {
+  // Iterate over all 🐸 cells in the current mouse column
+  for (const cell of q.cells({ 
+    value: v => v === '🐸',    // Only 🐸 values
+    col: c => c === q.mouseCol // Only current column
+  })) {
+    // Fill the hint cell with translucent black for visual feedback
     hint.fill(cell.row, cell.col, color(0, 140));
   }
 }
@@ -228,6 +279,6 @@ function highlight() {
 
 ## Parameters
 
-| Param | Description                                                                         |
-|-------|-------------------------------------------------------------------------------------|
-| `fx`  | Function: A function of the form `fx(row, col)` to be executed on all visited cells |
+| Param    | Description |
+|----------|-------------|
+| `filter` | Restricts which cells are visited. All cells are included if this parameter is omitted or `undefined`. It can be: <ul><li>a value collection (`Array` or `Set`)</li><li>a predicate function (`value => boolean`)</li><li>an object with optional `value`, `row`, and/or `col` predicates</li></ul> |
