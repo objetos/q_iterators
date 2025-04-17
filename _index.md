@@ -9,16 +9,16 @@ Iterators offer a concise and expressive way to traverse a quadrille, especially
 
 ## Manual Iteration Using Nested Loops
 
-The classic approach to traversing a grid involves nested `for` loops:
+The classic approach to traversing a grid—often seen with 2D arrays or matrices—involves nested `for` loops:
 
 ```js
-function fx(row, col) {
-  /* fx body */
+function callback(row, col) {
+  /* callback body */
 }
 
 for (let row = 0; row < quadrille.height; row++) {
   for (let col = 0; col < quadrille.width; col++) {
-    fx(row, col);
+    callback(row, col);
   }
 }
 ```
@@ -26,7 +26,7 @@ for (let row = 0; row < quadrille.height; row++) {
 While straightforward and likely familiar, this pattern is prone to [off-by-one](https://en.wikipedia.org/wiki/Off-by-one_error) and [indexing errors](https://en.wikipedia.org/wiki/Array_data_structure#Indexing), and doesn't support filtering without additional logic. It's a good fallback—but modern alternatives are often cleaner and safer.
 
 {{< callout type="warning" >}}  
-For quick prototypes or direct indexing, manual loops are still fine. But for filtering, clarity, and maintainability, use the iterator methods.
+For quick prototypes or direct indexing, manual loops are still fine. But for filtering, clarity, and maintainability, use the iterator methods introduce here.
 {{< /callout >}}
 
 ## Method Overview
