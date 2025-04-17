@@ -5,7 +5,7 @@ title: for...of
 
 Iterates lazily in row-major order (top to bottom, left to right) over all matching cells in a `quadrille`. Each iteration yields a cell object of the form `{ row, col, value }`. This pattern mirrors JavaScript’s [`for...of`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of), which is used to loop over iterable objects like arrays and generators.
 
-To yield only a subset of cells, use [q.cells(filter)]({{< relref cells >}}) within the loop. The [visit(callback, filter?)]({{< relref visit >}}) method offers a concise alternative by applying a `callback` function to each yielded cell.
+To yield only a subset of cells, use [quadrille.cells(filter)]({{< relref cells >}}) within the loop. The [visit(callback, filter?)]({{< relref visit >}}) method offers a concise alternative by applying a `callback` function to each yielded cell.
 
 ## Example: Filtering by Value Collection
 
