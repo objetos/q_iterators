@@ -8,7 +8,7 @@ weight: 3
 Traversal is row-major (top to bottom, left to right). Returns an [`IterableIterator`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#the_iterable_protocol)—not an array—so values are produced on demand.
 
 {{< callout type="info" >}}  
-This method underlies both [`for...of`]({{< relref for_of >}}) and [`visit`]({{< relref visit >}}), which are preferred in most use cases. Direct use is rare and only recommended when chaining with array methods.
+This method is typically used in conjunction with [`for...of`]({{< relref for_of >}}) or [`visit`]({{< relref visit >}}). Direct use is rare and generally reserved for cases involving array transformations or custom iteration logic.  
 {{< /callout >}}
 
 ## Examples
@@ -71,6 +71,6 @@ Use this when:
 
 ## Parameters
 
-| Param    | Type                          | Description |
-|----------|-------------------------------|-------------|
-| `filter` | `Array`, `Set`, `Function`, or `Object` | Optional filter to select which cells are yielded. Accepts: <ul><li>a value collection (`Array` or `Set`)</li><li>a predicate function (`value => boolean`)</li><li>an object with optional `value`, `row`, and/or `col` predicate functions</li></ul> If omitted, all cells are returned. |
+| Param    | Description |
+|----------|-------------|
+| `filter` | Optional filter to select which cells are yielded. It can be: <ul><li>a value collection (`Array` or `Set`)</li><li>a predicate function (`value => boolean`)</li><li>an object with optional `value`, `row`, and/or `col` predicate functions</li></ul> If omitted, all cells are returned |
