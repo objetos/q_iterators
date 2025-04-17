@@ -5,7 +5,7 @@ weight: 2
 draft: true
 ---
 
-Iterators offer a concise and expressive way to traverse a `quadrille`, especially when combined with filters. Both [`for...of`]({{< relref for_of >}}) and [`visit`]({{< relref visit >}}) are built on top of the lazy [`cells()`]({{< relref cells >}}) generator, providing functional-style iteration without the verbosity and pitfalls of manual indexing.
+Iterators offer a concise and expressive way to traverse a quadrille, especially when combined with filters. Both [for...of]({{< relref for_of >}}) and [visit]({{< relref visit >}}) rely on the lazy [cells()]({{< relref cells >}}) generator to yield filtered cells, enabling functional-style iteration without the verbosity and pitfalls of manual indexing.
 
 ## Manual Iteration Using Nested Loops
 
