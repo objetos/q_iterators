@@ -5,11 +5,11 @@ weight: 2
 draft: true
 ---
 
-The `visit` p5 function is designed to iterate over `quadrille` cells and execute a specified `fx` function on each cell. It provides a concise, less error-prone approach that aligns well with functional programming principles.
+Iterators offer a concise and expressive way to traverse a `quadrille`, especially when combined with filters. Both [`for...of`]({{< relref for_of >}}) and [`visit`]({{< relref visit >}}) are built on top of the lazy [`cells()`]({{< relref cells >}}) generator, providing functional-style iteration without the verbosity and pitfalls of manual indexing.
 
 ## Manual Iteration Using Nested Loops
 
-The first and most familiar way to iterate over a `quadrille` is with standard `for` loops, a common method used for looping through matrices:
+The classic approach to traversing a grid involves nested `for` loops:
 
 ```js
 function fx(row, col) {
@@ -23,44 +23,14 @@ for (let row = 0; row < quadrille.height; row++) {
 }
 ```
 
-This approach, while widely understood, requires precise indexing of `row` and `col`, which can sometimes lead to errors, particularly in setting index limits.
+While straightforward, this pattern is prone to off-by-one errors and doesn't support filtering without additional logic. It's a good fallback—but modern alternatives are often cleaner and safer.
 
-## Iteration Using `for...of` Loops
+{{< callout type="warning" >}}  
+For quick prototypes or direct indexing, manual loops are still fine. But for filtering, clarity, and maintainability, use the iterator methods.
+{{< /callout >}}
 
-A more modern approach uses a [for...of loop](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of) since a `quadrille` is an [iterable object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#the_iterable_protocol). Each `cell` is an object with `value`, `row`, and `col` properties, enabling direct access to its position:
+## Method Overview
 
-```js
-function fx(row, col) {
-  /* fx body */
-}
-
-for (let cell of quadrille) {
-  fx(cell.row, cell.col);
-}
-```
-
-This method simplifies access to `row` and `col` without explicit indexing, reducing errors. However, it still requires manual iteration logic, which can be cumbersome in more complex scenarios.
-
-## Simplified Iteration with `visit`
-
-The `visit` function makes it easy to apply a function (`fx`) to each cell in a `quadrille`. By removing the need for manual indexing, it simplifies the process and reduces the chance of errors. Additionally, `visit` supports an optional `values` array to selectively process specific cells, adding flexibility.
-
-```js
-function fx(row, col) {
-  /* fx body */
-}
-
-quadrille.visit(fx, values);
-```
-
-This approach keeps the code clean and allows the logic to be reused and organized effectively. The optional `values` array makes it possible to limit iteration to specific cell values.
-
-## Concise Iteration with `visit`
-
-The `visit` function also supports inline definitions of the `fx` function using modern [arrow functions](https://www.w3schools.com/js/js_arrow_function.asp). These anonymous functions enable a more concise and [declarative](https://en.wikipedia.org/wiki/Declarative_programming) style, removing the need for explicit loops:
-
-```js
-quadrille.visit(({row, col}) => { /* fx body */ }, values);
-```
-
-This concise approach is preferred for its simplicity, reducing potential errors and improving readability while fully leveraging modern JavaScript features.
+- [`for...of`]({{< relref for_of >}}): modern, efficient, and expressive. Supports full control flow (`break`, `continue`, etc.).
+- [`visit(callback, filter?)`]({{< relref visit >}}): syntactic sugar for `for...of`, perfect for inline [arrow functions](https://www.w3schools.com/Js/js_arrow_function.asp).
+- [`cells(filter?)`]({{< relref cells >}}): low-level generator behind both methods. Rarely used directly—unless you're chaining with [`map`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map), [`reduce`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce), or [`Array.from`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from).
