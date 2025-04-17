@@ -23,7 +23,7 @@ for (let row = 0; row < quadrille.height; row++) {
 }
 ```
 
-While straightforward, this pattern is prone to off-by-one errors and doesn't support filtering without additional logic. It's a good fallback—but modern alternatives are often cleaner and safer.
+While straightforward, this pattern is prone to [off-by-one errors](https://en.wikipedia.org/wiki/Off-by-one_error) and [index-out-of-bounds errors](https://en.wikipedia.org/wiki/Array_data_structure#Indexing), and doesn't support filtering without additional logic. It's a good fallback—but modern alternatives are often cleaner and safer.
 
 {{< callout type="warning" >}}  
 For quick prototypes or direct indexing, manual loops are still fine. But for filtering, clarity, and maintainability, use the iterator methods.
