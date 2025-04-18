@@ -2,7 +2,7 @@
 bookCollapseSection: true
 title: "Iterators"
 weight: 2
-draft: true
+draft: false
 ---
 
 Iterators offer a concise and expressive way to traverse a quadrille, especially when combined with filters. Both [for...of]({{< relref for_of >}}) and [visit]({{< relref visit >}}) rely on the lazy [cells()]({{< relref cells >}}) generator to yield filtered cells, enabling functional-style iteration without the verbosity and pitfalls of manual indexing.
