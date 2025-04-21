@@ -1,6 +1,6 @@
 ---
 bookCollapseSection: true
-title: "Iterators"
+title: Iterators
 weight: 2
 draft: false
 ---
