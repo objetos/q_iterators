@@ -11,7 +11,7 @@ Filter functions can access the `{ row, col, value }` cell data, allowing you to
 
 ## Manual Iteration Using Nested Loops
 
-The classic approach to traversing a grid—often seen with 2D arrays or matrices—involves nested `for` loops:
+The [imperative programming](https://en.wikipedia.org/wiki/Imperative_programming) style to traversing a grid—often seen with 2D arrays or matrices—involves nested `for` loops:
 
 ```js
 function callback(row, col) {
