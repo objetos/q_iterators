@@ -5,9 +5,7 @@ weight: 2
 draft: false
 ---
 
-Iterators offer a concise and expressive way to traverse a quadrille, especially when combined with filters. Both [`for...of`]({{< relref for_of >}}) and [`visit`]({{< relref visit >}}) rely on the lazy [`cells()`]({{< relref cells >}}) generator to yield filtered cells, enabling functional-style iteration without the verbosity and pitfalls of manual indexing.
-
-Filter functions can access the `{ row, col, value }` cell data, allowing you to express complex cell selections in a single inline predicate.
+The **`visit` family** offers a single high-level mechanism to traverse a quadrille in **row-major** order. The callback receives `{ row, col, value }`, may read or mutate cells, and iteration **stops early** if the callback returns `false`. Traversal can apply to **all cells**, or be restricted by a **collection** of allowed values or a **predicate** function, encouraging a [declarative programming](https://en.wikipedia.org/wiki/Declarative_programming) approach—*specify what to process, not how to loop*.
 
 ## Manual Iteration Using Nested Loops
 
@@ -25,14 +23,10 @@ for (let row = 0; row < quadrille.height; row++) {
 }
 ```
 
-While straightforward and likely familiar, this pattern is prone to [off-by-one](https://en.wikipedia.org/wiki/Off-by-one_error) and [indexing errors](https://en.wikipedia.org/wiki/Array_data_structure#Indexing), and doesn't support filtering without additional logic. It's a good fallback—but modern alternatives are often cleaner and safer.
-
-{{< callout type="warning" >}}  
-For quick prototypes or direct indexing, manual loops are still fine. But for filtering, clarity, and maintainability, use the iterator methods introduced here.
-{{< /callout >}}
+While straightforward and likely familiar, this pattern is prone to [off-by-one](https://en.wikipedia.org/wiki/Off-by-one_error) and [indexing errors](https://en.wikipedia.org/wiki/Array_data_structure#Indexing). It also requires extra logic for filtering. It’s a good fallback—but modern alternatives are cleaner and safer.
 
 ## Method Overview
 
-* [`for...of`]({{< relref for_of >}}): modern, efficient, and expressive. Supports full control flow (`break`, `continue`, etc.).
-* [`visit(callback, filter?)`]({{< relref visit >}}): syntactic sugar for `for...of`, perfect for inline [arrow functions](https://www.w3schools.com/Js/js_arrow_function.asp). Also supports full cell predicates.
-* [`cells(filter?)`]({{< relref cells >}}): generator used by both methods for yielding filtered cells. Use directly when chaining with methods like [`map`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map), [`reduce`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce), or [`Array.from`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from).
+* [`visit(callback)`]({{< relref visit >}}): iterates all cells in row-major order. Return `false` to stop early.
+* [`visit(callback, collection)`]({{< relref "visit_collection" >}}): iterates only cells whose value is in the given `Array` or `Set`.
+* [`visit(callback, predicate)`]({{< relref "visit_predicate" >}}): iterates only cells where the predicate function returns `true`.
