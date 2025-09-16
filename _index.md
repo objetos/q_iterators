@@ -5,25 +5,26 @@ weight: 2
 draft: false
 ---
 
-The **`visit` family** offers a single high-level mechanism to traverse a quadrille in **row-major** order. The callback receives `{ row, col, value }`, may read or mutate cells, and iteration **stops early** if the callback returns `false`. Traversal can apply to **all cells**, or be restricted by a **collection** of allowed values or a **predicate** function, encouraging a [declarative programming](https://en.wikipedia.org/wiki/Declarative_programming) approach—*specify what to process, not how to loop*.
+The `visit` method provides a single high-level mechanism to traverse a quadrille in **row-major** order (rows `0..height-1`, within each row columns `0..width-1`). The callback is invoked with `{ row, col, value }`, may read or mutate cells, and iteration **stops early** if the callback returns `false`. Traversal can apply to **all cells**, or be restricted by a **collection** of allowed values or a **predicate** function, encouraging a [declarative programming](https://en.wikipedia.org/wiki/Declarative_programming) approach.
 
 ## Manual Iteration Using Nested Loops
 
-The [imperative programming](https://en.wikipedia.org/wiki/Imperative_programming) style to traversing a grid—often seen with 2D arrays or matrices—involves nested `for` loops:
+The [imperative programming](https://en.wikipedia.org/wiki/Imperative_programming) style for traversing a grid—often seen with 2D arrays or matrices—uses nested `for` loops:
 
 ```js
-function callback(row, col) {
+function callback(row, col, value) {
   /* callback body */
 }
 
 for (let row = 0; row < quadrille.height; row++) {
   for (let col = 0; col < quadrille.width; col++) {
-    callback(row, col);
+    const value = quadrille.read(row, col);
+    callback(row, col, value);
   }
 }
 ```
 
-While straightforward and likely familiar, this pattern is prone to [off-by-one](https://en.wikipedia.org/wiki/Off-by-one_error) and [indexing errors](https://en.wikipedia.org/wiki/Array_data_structure#Indexing). It also requires extra logic for filtering. It’s a good fallback—but modern alternatives are cleaner and safer.
+While straightforward and familiar, this pattern is prone to [off-by-one](https://en.wikipedia.org/wiki/Off-by-one_error) and [indexing errors](https://en.wikipedia.org/wiki/Array_data_structure#Indexing), and requires additional logic for filtering. It remains a useful fallback, but the iterator methods are typically cleaner and safer.
 
 ## Method Overview
 
