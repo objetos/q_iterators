@@ -24,7 +24,7 @@ for (let row = 0; row < quadrille.height; row++) {
 }
 ```
 
-While straightforward and familiar, this pattern is prone to [off-by-one](https://en.wikipedia.org/wiki/Off-by-one_error) and [indexing errors](https://en.wikipedia.org/wiki/Array_data_structure#Indexing), and requires additional logic for filtering. It remains a useful fallback, but the iterator methods are typically cleaner and safer.
+While straightforward and likely familiar, this pattern is prone to [off-by-one](https://en.wikipedia.org/wiki/Off-by-one_error) and [indexing errors](https://en.wikipedia.org/wiki/Array_data_structure#Indexing), and requires additional logic for filtering. It remains a useful fallback, but the iterator methods are typically cleaner and safer.
 
 ## Method Overview
 
